@@ -15,6 +15,7 @@ import {
   Briefcase,
   Award,
   Target,
+  UserPlus,
 } from "lucide-react"
 import Image from "next/image"
 import { useEffect, useRef, useState } from "react"
@@ -26,6 +27,35 @@ export default function Portfolio() {
   const aboutRef = useRef<HTMLElement>(null)
   const servicesRef = useRef<HTMLElement>(null)
   const comingSoonRef = useRef<HTMLElement>(null)
+
+  const downloadVCard = () => {
+    const vCard = `BEGIN:VCARD
+VERSION:3.0
+FN:Nabila Khouimi
+N:Khouimi;Nabila;;;
+ORG:NK Consulting
+TITLE:Communication & Events Consultant
+EMAIL:nab.khouimi@gmail.com
+EMAIL:nabila@nkconsulting.ma
+TEL:+212630547146
+TEL:+351920793491
+ADR:;;Rabat;Morocco;;;;
+URL:https://www.linkedin.com/in/nabila-khouimi-10537423/
+URL:https://www.instagram.com/nabila.khouimi
+URL:https://www.instagram.com/slowparentingrabat/
+NOTE:Multi-skilled Creator - Digital Community Contributor - Empowering Digital Nomad Families in Morocco - Member of the Worldschooler Entrepreneur Collective
+END:VCARD`
+
+    const blob = new Blob([vCard], { type: "text/vcard" })
+    const url = window.URL.createObjectURL(blob)
+    const link = document.createElement("a")
+    link.href = url
+    link.download = "nabila-khouimi-contact.vcf"
+    document.body.appendChild(link)
+    link.click()
+    document.body.removeChild(link)
+    window.URL.revokeObjectURL(url)
+  }
 
   useEffect(() => {
     const handleMouseMove = (e: MouseEvent) => {
@@ -291,8 +321,29 @@ export default function Portfolio() {
                   @nabila.khouimi
                 </a>
               </Button>
+              <Button
+                variant="outline"
+                size="sm"
+                onClick={downloadVCard}
+                className="bg-white hover:bg-gray-100 border-gray-300 hover:border-gray-400 hover:scale-105 transition-all duration-500 group text-black text-sm h-9"
+              >
+                <UserPlus className="h-4 w-4 mr-2 transition-transform duration-300 group-hover:scale-125 group-hover:rotate-12 icon-bounce" />
+                Add to Contact
+              </Button>
             </div>
           </div>
+        </div>
+
+        <div className="md:hidden mt-6 px-4">
+          <Button
+            variant="outline"
+            size="lg"
+            onClick={downloadVCard}
+            className="bg-white hover:bg-gray-100 border-gray-300 hover:border-gray-400 hover:scale-105 transition-all duration-500 group text-black text-sm h-12 w-full"
+          >
+            <UserPlus className="h-4 w-4 mr-2 transition-transform duration-300 group-hover:scale-125 group-hover:rotate-12 icon-bounce" />
+            Add to Contact(vCard)
+          </Button>
         </div>
       </section>
 
